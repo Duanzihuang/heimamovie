@@ -1,14 +1,25 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+import { RouteConfig, createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-
-Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
+    redirect: '/home'
+  },
+  {
+    path: '/home',
+    name: 'Index', // name不能为Home，否则路由不起作用
     component: Home
+  },
+  {
+    path: '/list/:type',
+    name: 'List',
+    component: () => import('@/views/List.vue')
+  },
+  {
+    path: '/detail/:id',
+    name: 'Home',
+    component: () => import('@/views/Detail.vue')
   },
   {
     path: '/about',
@@ -16,13 +27,13 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 
