@@ -27,3 +27,10 @@ export const getMovieList = ({ type = '', start = 0, count = 5 }) => {
     url: `${type}?start=${start}&count=${count}`
   })
 }
+
+// 根据电影id获取电影信息
+export const getMoveInfo = id => {
+  return request({
+    url: `/subject/${id}`
+  })
+}

@@ -10,17 +10,21 @@
       </div>
       <div class="scroll-view">
         <div class="item" v-for="item in in_theaters" :key="item.id">
-          <img :src="item.images.small" />
-          <span class="title">{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
-          <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
-          <div v-else class="star-box">
-            <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
-            <div v-for="(subitem,index) in item.startArr" :key="index">
-              <span v-if="subitem===1" class="orange">★</span>
-              <span v-else class="gray">★</span>
+          <router-link :to="'/detail/'+item.id">
+            <img :src="item.images.small" />
+            <span
+              class="title"
+            >{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
+            <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
+            <div v-else class="star-box">
+              <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
+              <div v-for="(subitem,index) in item.startArr" :key="index">
+                <span v-if="subitem===1" class="orange">★</span>
+                <span v-else class="gray">★</span>
+              </div>
+              {{item.rating.average}}
             </div>
-            {{item.rating.average}}
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -31,17 +35,21 @@
       </div>
       <div class="scroll-view">
         <div class="item" v-for="item in coming_soon" :key="item.id">
-          <img :src="item.images.small" />
-          <span class="title">{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
-          <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
-          <div v-else class="star-box">
-            <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
-            <div v-for="(subitem,index) in item.startArr" :key="index">
-              <span v-if="subitem===1" class="orange">★</span>
-              <span v-else class="gray">★</span>
+          <router-link :to="'/detail/'+item.id">
+            <img :src="item.images.small" />
+            <span
+              class="title"
+            >{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
+            <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
+            <div v-else class="star-box">
+              <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
+              <div v-for="(subitem,index) in item.startArr" :key="index">
+                <span v-if="subitem===1" class="orange">★</span>
+                <span v-else class="gray">★</span>
+              </div>
+              {{item.rating.average}}
             </div>
-            {{item.rating.average}}
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -52,17 +60,21 @@
       </div>
       <div class="scroll-view">
         <div class="item" v-for="item in top250" :key="item.id">
-          <img :src="item.images.small" />
-          <span class="title">{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
-          <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
-          <div v-else class="star-box">
-            <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
-            <div v-for="(subitem,index) in item.startArr" :key="index">
-              <span v-if="subitem===1" class="orange">★</span>
-              <span v-else class="gray">★</span>
+          <router-link :to="'/detail/'+item.id">
+            <img :src="item.images.small" />
+            <span
+              class="title"
+            >{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
+            <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
+            <div v-else class="star-box">
+              <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
+              <div v-for="(subitem,index) in item.startArr" :key="index">
+                <span v-if="subitem===1" class="orange">★</span>
+                <span v-else class="gray">★</span>
+              </div>
+              {{item.rating.average}}
             </div>
-            {{item.rating.average}}
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -221,7 +233,7 @@ export default {
       height: 100%;
       // margin-left: 5px;
       // margin-right: 5px;
-      .item {
+      .item a{
         width: 85px;
         height: 100%;
         display: flex;

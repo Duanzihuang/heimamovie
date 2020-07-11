@@ -10,6 +10,10 @@ body {
   margin: 0;
   padding: 0;
 }
+a {
+  text-decoration: none;
+  color: #333;
+}
 
 .star-box {
   color: gray;

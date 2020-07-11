@@ -3,16 +3,18 @@
     <NavBar />
     <div class="items">
       <div class="item" v-for="item in list" :key="item.id">
-        <img :src="item.images.small" />
-        <span class="title">{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
-        <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
-        <div v-else class="star-box">
-          <div v-for="(subitem,index) in item.startArr" :key="index">
-            <span v-if="subitem===1" class="orange">★</span>
-            <span v-else class="gray">★</span>
+        <router-link :to="'/detail/'+item.id">
+          <img :src="item.images.small" />
+          <span class="title">{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
+          <div v-if="item.rating.average==0" class="no-score">暂无评分</div>
+          <div v-else class="star-box">
+            <div v-for="(subitem,index) in item.startArr" :key="index">
+              <span v-if="subitem===1" class="orange">★</span>
+              <span v-else class="gray">★</span>
+            </div>
+            {{item.rating.average}}
           </div>
-          {{item.rating.average}}
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -92,7 +94,7 @@ export default {
     padding-top: 44px;
     display: flex;
     flex-wrap: wrap;
-    .item {
+    .item{
       margin-top: 5px;
       width: 33.33%;
       height: 100%;
