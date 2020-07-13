@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -13,7 +13,7 @@
     "vue": "^3.0.0-beta.1",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.2",
-    "vue-router": "^4.0.0-alpha.6",
+    "vue-router": "^4.0.0-beta.2",
     "vuex": "^4.0.0-alpha.1"
   },
   "devDependencies": {

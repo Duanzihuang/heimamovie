@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue3.x</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * https://es6.ruanyifeng.com/#docs/proxy
+       *
+       */
+      const person = new Proxy(
+        {},
+        {
+          get: function(target, propKey, receiver) {
+            console.log(`getting ${propKey}!`)
+            return Reflect.get(target, propKey, receiver)
+          },
+          set: function(target, propKey, value, receiver) {
+            console.log(`setting ${propKey} value is ${value}`)
+            return Reflect.set(target, propKey, value, receiver)
+          }
+        }
+      )
+
+      person.name = '段子黄'
+      person.age = 31
+
+      console.log(person.name)
+      console.log(person.age)
+    </script>
+  </body>
+</html>

@@ -29,7 +29,7 @@ export const getMovieList = ({ type = '', start = 0, count = 5 }) => {
 }
 
 // 根据电影id获取电影信息
-export const getMoveInfo = id => {
+export const getMoveInfo = (id: string) => {
   return request({
     url: `/subject/${id}`
   })

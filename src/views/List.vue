@@ -5,7 +5,7 @@
       <div class="item" v-for="item in list" :key="item.id">
         <router-link :to="'/detail/'+item.id">
           <img :src="item.images.small" />
-          <span class="title">{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
+          <span class="title">{{item.title.length > 6 ? item.title.substr(0,6)+'...' : item.title}}</span>
           <div v-if="item.rating.average==0" class="no-score">暂无评分</div>
           <div v-else class="star-box">
             <div v-for="(subitem,index) in item.startArr" :key="index">
@@ -29,10 +29,12 @@ export default {
   components: {
     NavBar
   },
-  setup() {
+  setup () {
     const state = reactive({
       list: []
     })
+
+    const route = useRoute()
 
     const typeTitle = computed(() => {
       switch (route.params.type) {
@@ -45,12 +47,6 @@ export default {
         case 'top250':
           return 'Top250'
       }
-    })
-
-    const route = useRoute()
-
-    onMounted(() => {
-      getMovieListData()
     })
 
     const getMovieListData = async () => {
@@ -67,7 +63,7 @@ export default {
         // v.startNum = Math.floor(v.rating.stars/10);
         v.startArr = []
         // 计算星星个数
-        let starNum = Math.floor(v.rating.stars / 10)
+        const starNum = Math.floor(v.rating.stars / 10)
         // 遍历数组赋值即可 根据星星个数 赋值(黄星=1,灰星=0)
         // index 从0开始  0 , 1 ,2 ,3,4
         // 假设星星个数为 4
@@ -78,6 +74,10 @@ export default {
 
       state.list = res.data.subjects
     }
+
+    onMounted(() => {
+      getMovieListData()
+    })
 
     provide('title', typeTitle)
 
@@ -94,7 +94,7 @@ export default {
     padding-top: 44px;
     display: flex;
     flex-wrap: wrap;
-    .item{
+    .item {
       margin-top: 5px;
       width: 33.33%;
       height: 100%;

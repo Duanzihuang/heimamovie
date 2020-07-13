@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue2.x</title>
+</head>
+<body>
+    <script>
+        /**
+         * Object.defineProperty
+         * 
+         * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty 
+         */
+
+        const person = {}
+
+        let _name = ''
+        Object.defineProperty(person,'name', {
+            set:function(val) {
+                console.log('name value is ',val)
+                _name = val
+            },
+            get: function() {
+                return _name
+            }
+        })
+
+        let _age = ''
+        Object.defineProperty(person,'age', {
+            set:function(val) {
+                console.log('age value is ',val)
+                _age = val
+            },
+            get: function() {
+                return _age
+            }
+        })
+
+        person.name = '段子黄'
+        person.age = 31
+        console.log(person.name)
+        console.log(person.age)
+    </script>
+</body>
+</html>

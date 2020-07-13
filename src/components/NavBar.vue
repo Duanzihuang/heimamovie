@@ -6,12 +6,16 @@
 </template>
 
 <script>
-import { reactive, inject } from 'vue'
+import { reactive, inject, toRefs } from 'vue'
 export default {
-  setup() {
+  setup () {
     const title = inject('title')
 
-    return { title }
+    const state = reactive({
+      title
+    })
+
+    return { ...toRefs(state) }
   }
 }
 </script>

@@ -10,32 +10,32 @@
           <div class="top">
             <span v-if="movieInfo.rating && movieInfo.rating.average===0">暂无评分</span>
             <div v-else class="star-box">
-              <div v-for="item in movieInfo.starArr" :key="item">
+              <div v-for="(item,index) in movieInfo.starArr" :key="index">
                 <img v-if="item===1" src="@/assets/imgs/full.png" />
                 <img v-else-if="item===3" src="@/assets/imgs/halfStar.jpg" />
                 <img v-else src="@/assets/imgs/empty.png" />
               </div>
             </div>
-            <span class="score">{{movieInfo.rating.average}}</span>
+            <span class="score">{{movieInfo.rating && movieInfo.rating.average}}</span>
             <span class="comments">{{movieInfo.ratings_count}}人评价</span>
           </div>
           <!-- bottom -->
           <div class="bottom">
-            {{movieInfo.durations[0]}} /
+            {{movieInfo.durations && movieInfo.durations[0]}} /
             <span
               v-for="genre in movieInfo.genres"
               :key="genre"
             >{{genre}} /</span>
-            {{movieInfo.directors[0].name}}(导演) /
+            {{movieInfo.durations && movieInfo.directors[0].name}}(导演) /
             <span
               v-for="cast in movieInfo.casts"
               :key="cast.id"
             >{{cast.name}} /</span>
-            {{movieInfo.pubdates[0]}} 上映
+            {{movieInfo.pubdates && movieInfo.pubdates[0]}} 上映
           </div>
         </div>
         <div class="right">
-          <img :src="movieInfo.images.small" />
+          <img :src="movieInfo.images && movieInfo.images.small" />
         </div>
       </div>
     </div>
@@ -69,8 +69,8 @@
       <!-- 滚动区域 -->
       <div class="scroll-view">
         <div class="item">
-          <img :src="movieInfo.directors[0].avatars.small" />
-          <span class="name">{{movieInfo.directors[0].name}}</span>
+          <img :src="movieInfo.directors && movieInfo.directors[0].avatars.small" />
+          <span class="name">{{movieInfo.directors && movieInfo.directors[0].name}}</span>
           <span class="job">导演</span>
         </div>
         <div v-for="cast in movieInfo.casts" :key="cast.id" class="item">
@@ -84,7 +84,7 @@
     <div class="movie-desc">
       <div
         class="title small"
-      >{{movieInfo.title}}的预告片({{movieInfo.trailers.length}})、视频评论(1)和图片({{movieInfo.photos_count}})</div>
+      >{{movieInfo.title}}的预告片({{movieInfo.trailers && movieInfo.trailers.length}})、视频评论(1)和图片({{movieInfo.photos_count}})</div>
       <!-- 滚动区域 -->
       <div class="scroll-view">
         <div v-for="trailer in movieInfo.trailers" :key="trailer.id" class="video-item">
@@ -118,14 +118,14 @@
 
 <script>
 import NavBar from '@/components/NavBar'
-import { reactive, onBeforeMount, onMounted, toRefs, provide } from 'vue'
+import { reactive, onMounted, toRefs, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import { getMoveInfo } from '@/api/movie'
 export default {
   components: {
     NavBar
   },
-  setup() {
+  setup () {
     const state = reactive({
       movieInfo: {},
       cutSummary: '' // 被剪切的简介
@@ -133,14 +133,8 @@ export default {
 
     const route = useRoute()
 
-    onBeforeMount(() => {
-      // 设置导航栏标题
-      provide('title', '电影详情')
-    })
-
-    onMounted(() => {
-      getMovieInfoData()
-    })
+    // 设置导航栏标题
+    provide('title', '电影详情')
 
     const getMovieInfoData = async () => {
       const res = await getMoveInfo(route.params.id)
@@ -167,7 +161,7 @@ export default {
         // 整数位都是满的星星
         if (i < intNum) {
           starArr[i] = 1
-        } else if (i == intNum) {
+        } else if (i === intNum) {
           // console.log('小数位比较');
           // 比.5小
           if (floatNum < 0.5) {
@@ -186,9 +180,12 @@ export default {
       res.data.starArr = starArr
 
       state.movieInfo = res.data
-      state.navBarTitle = state.cutSummary =
-        state.movieInfo.summary.substr(0, 65) + '...'
+      state.cutSummary = state.movieInfo.summary.substr(0, 65) + '...'
     }
+
+    onMounted(() => {
+      getMovieInfoData()
+    })
 
     // 定义方法区域
     const more = () => {

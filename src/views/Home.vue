@@ -9,12 +9,12 @@
         <div class="more" @click="goToList('in_theaters')">更多</div>
       </div>
       <div class="scroll-view">
-        <div class="item" v-for="item in in_theaters" :key="item.id">
+        <div class="item" v-for="item in inTheaters" :key="item.id">
           <router-link :to="'/detail/'+item.id">
             <img :src="item.images.small" />
             <span
               class="title"
-            >{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
+            >{{item.title.length > 6 ? item.title.substr(0,6)+'...' : item.title}}</span>
             <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
             <div v-else class="star-box">
               <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
@@ -34,12 +34,12 @@
         <div class="more" @click="goToList('coming_soon')">更多</div>
       </div>
       <div class="scroll-view">
-        <div class="item" v-for="item in coming_soon" :key="item.id">
+        <div class="item" v-for="item in comingSoon" :key="item.id">
           <router-link :to="'/detail/'+item.id">
             <img :src="item.images.small" />
             <span
               class="title"
-            >{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
+            >{{item.title.length > 6 ? item.title.substr(0,6)+'...' : item.title}}</span>
             <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
             <div v-else class="star-box">
               <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
@@ -64,7 +64,7 @@
             <img :src="item.images.small" />
             <span
               class="title"
-            >{{item.title.length <= 6 ? item.title : item.title.substr(0,6)+'...'}}</span>
+            >{{item.title.length > 6 ? item.title.substr(0,6)+'...' : item.title}}</span>
             <span v-if="item.rating.average==0" class="no-score">暂无评分</span>
             <div v-else class="star-box">
               <!-- block 是微信提供给我们的一个占位标签,渲染之后页面上看不到 -->
@@ -99,10 +99,10 @@ export default {
   components: {
     NavBar
   },
-  setup() {
+  setup () {
     const state = reactive({
-      in_theaters: [], // 正在热映
-      coming_soon: [], // 即将上映
+      inTheaters: [], // 正在热映
+      comingSoon: [], // 即将上映
       top250: [] // top250
     })
 
@@ -118,12 +118,6 @@ export default {
       store.commit('setShowBack', true)
     })
 
-    onMounted(() => {
-      getInTheatersData()
-      getComingSoonData()
-      getTop250Data()
-    })
-
     const getInTheatersData = async () => {
       const res = await getInTheaters({ start: 0, count: 10 })
 
@@ -134,7 +128,7 @@ export default {
         // v.startNum = Math.floor(v.rating.stars/10);
         v.startArr = []
         // 计算星星个数
-        let starNum = Math.floor(v.rating.stars / 10)
+        const starNum = Math.floor(v.rating.stars / 10)
         // 遍历数组赋值即可 根据星星个数 赋值(黄星=1,灰星=0)
         // index 从0开始  0 , 1 ,2 ,3,4
         // 假设星星个数为 4
@@ -143,7 +137,7 @@ export default {
         }
       })
 
-      state.in_theaters = res.data.subjects
+      state.inTheaters = res.data.subjects
     }
 
     const getComingSoonData = async () => {
@@ -156,7 +150,7 @@ export default {
         // v.startNum = Math.floor(v.rating.stars/10);
         v.startArr = []
         // 计算星星个数
-        let starNum = Math.floor(v.rating.stars / 10)
+        const starNum = Math.floor(v.rating.stars / 10)
         // 遍历数组赋值即可 根据星星个数 赋值(黄星=1,灰星=0)
         // index 从0开始  0 , 1 ,2 ,3,4
         // 假设星星个数为 4
@@ -165,7 +159,7 @@ export default {
         }
       })
 
-      state.coming_soon = res.data.subjects
+      state.comingSoon = res.data.subjects
     }
 
     const getTop250Data = async () => {
@@ -178,7 +172,7 @@ export default {
         // v.startNum = Math.floor(v.rating.stars/10);
         v.startArr = []
         // 计算星星个数
-        let starNum = Math.floor(v.rating.stars / 10)
+        const starNum = Math.floor(v.rating.stars / 10)
         // 遍历数组赋值即可 根据星星个数 赋值(黄星=1,灰星=0)
         // index 从0开始  0 , 1 ,2 ,3,4
         // 假设星星个数为 4
@@ -189,6 +183,12 @@ export default {
 
       state.top250 = res.data.subjects
     }
+
+    onMounted(() => {
+      getInTheatersData()
+      getComingSoonData()
+      getTop250Data()
+    })
 
     const goToList = type => {
       router.push(`/list/${type}`)
