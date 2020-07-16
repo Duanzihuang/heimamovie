@@ -74,7 +74,7 @@
           <span class="job">导演</span>
         </div>
         <div v-for="cast in movieInfo.casts" :key="cast.id" class="item">
-          <img :src="cast.avatars.small" />
+          <img :src="cast.avatars && cast.avatars.small" />
           <span class="name">{{cast.name}}</span>
           <span class="job">演员</span>
         </div>
@@ -118,7 +118,7 @@
 
 <script>
 import NavBar from '@/components/NavBar'
-import { reactive, onMounted, toRefs, provide } from 'vue'
+import { reactive, onMounted, toRefs, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getMoveInfo } from '@/api/movie'
 export default {
@@ -132,9 +132,10 @@ export default {
     })
 
     const route = useRoute()
+    const title = ref('正在加载中...')
 
     // 设置导航栏标题
-    provide('title', '电影详情')
+    provide('title', title)
 
     const getMovieInfoData = async () => {
       const res = await getMoveInfo(route.params.id)
@@ -180,6 +181,7 @@ export default {
       res.data.starArr = starArr
 
       state.movieInfo = res.data
+      title.value = res.data.title
       state.cutSummary = state.movieInfo.summary.substr(0, 65) + '...'
     }
 

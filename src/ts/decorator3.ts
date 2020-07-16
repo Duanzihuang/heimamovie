@@ -38,9 +38,9 @@ function Method(params: string) {
 
       console.log('方法装饰器内部 ', args)
 
-      console.log('method invoke start -----', new Date() - 0)
+      // console.log('method invoke start -----', new Date() - 0)
       oldMethod.apply(this, args)
-      console.log('method invoke end -----', new Date() - 0)
+      // console.log('method invoke end -----', new Date() - 0)
     }
   }
 }
